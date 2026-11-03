@@ -2,7 +2,6 @@
 <html lang="en" data-ev="corporate">
 <head>
 <meta charset="utf-8">
-<script>try{if(sessionStorage.seSeen)document.documentElement.classList.add('seen');sessionStorage.seSeen=1}catch(e){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Soumya Events and Entertainment — Exhibitions &amp; Corporate Events, Delhi NCR</title>
 <meta name="description" content="A to Z services for corporate events, exhibitions, seminars, product launches and award functions across Delhi NCR and PAN India. Stage, LED wall, décor, fabrication and AV. Rated 4.6 on Google. Open 24 hours.">
@@ -16,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
 <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/i4-480.webp 480w, assets/img/i4-640.webp 640w" imagesizes="(max-width:1000px) 66vw, 44vw">
-<link rel="stylesheet" href="styles.css?v=6">
+<link rel="stylesheet" href="styles.css?v=11">
 <noscript><style>.page{display:block}.rv,.reveal{opacity:1;transform:none;clip-path:none}.loader{display:none}</style></noscript>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"LocalBusiness","name":"Soumya Events and Entertainment",
@@ -31,7 +30,83 @@
 </head>
 <body>
 
-<div class="loader" aria-hidden="true"><span>Lights</span><em>up.</em></div>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="ls" data-ev="corporate" style="--t:0s">
+    <svg class="lplan" id="lp-seats" viewBox="0 0 390 844" preserveAspectRatio="xMidYMax slice"></svg>
+    <div class="lp"><img src="assets/img/g5-1360.webp" alt="" fetchpriority="high"></div>
+    <div class="lt"><b>Corporate</b><span>Conferences, dealer meets and AGMs</span></div>
+  </div>
+  <div class="ls" data-ev="exhibition" style="--t:1s">
+    <svg class="lplan" id="lp-stalls" viewBox="0 0 390 844" preserveAspectRatio="xMidYMax slice"></svg>
+    <div class="lp"><img src="assets/img/g6-1280.webp" alt=""></div>
+    <div class="lt"><b>Exhibition</b><span>Stalls, fabrication and branding</span></div>
+  </div>
+  <div class="ls" data-ev="summit" style="--t:2s">
+    <div class="ldots"></div>
+    <div class="lp"><img src="assets/img/g2-1360.webp" alt=""><div class="lled" id="lled"></div></div>
+    <div class="lt"><b>Summit</b><span>Stage, LED wall and AV</span></div>
+  </div>
+  <div class="ls" data-ev="launch" style="--t:3s">
+    <div class="lsparks" id="lsparks"></div>
+    <div class="lp"><img src="assets/img/g1-1360.webp" alt=""><i class="lcur"></i><i class="lcur"></i></div>
+    <div class="lt"><b>Launch</b><span>Product launches, from stage to spotlight</span></div>
+  </div>
+  <div class="ls" data-ev="gala" style="--t:4s">
+    <div class="lball"></div>
+    <div class="lp"><img src="assets/img/g8-1360.webp" alt=""></div>
+    <div class="ltw" id="ltw"></div>
+    <div class="lt"><b>Gala</b><span>Award functions, d&eacute;cor and seating</span></div>
+  </div>
+  <div class="lw" data-ev="corporate">
+    <i class="lring"></i><i class="lring"></i><i class="lring"></i>
+    <div class="lw-pass"><img src="assets/img/logo.jpg" alt="" width="92" height="92"><span>All access</span></div>
+    <strong><i style="--i:0">W</i><i style="--i:1">e</i><i style="--i:2">l</i><i style="--i:3">c</i><i style="--i:4">o</i><i style="--i:5">m</i><i style="--i:6">e</i></strong>
+    <em>to Soumya Events &amp; Entertainment</em>
+    <div class="lfilm"><div>
+      <img src="assets/img/g3-480.webp" alt=""><img src="assets/img/g6-480.webp" alt=""><img src="assets/img/g5-480.webp" alt=""><img src="assets/img/g1-480.webp" alt=""><img src="assets/img/g4-480.webp" alt=""><img src="assets/img/g8-480.webp" alt=""><img src="assets/img/g2-480.webp" alt=""><img src="assets/img/g3-480.webp" alt=""><img src="assets/img/g6-480.webp" alt=""><img src="assets/img/g5-480.webp" alt="">
+    </div></div>
+  </div>
+  <div class="lbeams"><i></i><i></i><i></i></div>
+  <div class="ltruss"><i></i></div>
+  <div class="ltape"></div>
+  <div class="lmotes"></div>
+  <div class="lconf"></div>
+</div>
+<script>
+(function () {
+  var l = document.getElementById('loader'), $ = function (i) { return document.getElementById(i); };
+  var r = function (a, b) { return (a + Math.random() * (b - a)).toFixed(2); };
+  var c = ['#ffcf8f', '#ffab2e', '#fff3e0'], h = '', i, x, y;
+  for (i = 0; i < 18; i++) h += '<i style="--x:' + r(0, 100) + '%;--dx:' + r(-6, 6) + 'vw;--t:' + r(5, 5.9) + 's;--s:' + r(2.2, 3) + 's;background:' + c[i % 3] + '"></i>';
+  l.querySelector('.lconf').innerHTML = h;
+  h = '';
+  for (i = 0; i < 14; i++) h += '<i style="--x:' + r(0, 100) + '%;--y:' + r(30, 100) + 'vh;--t:' + r(0, 3) + 's;--s:' + r(4, 7) + 's"></i>';
+  l.querySelector('.lmotes').innerHTML = h;
+  /* seating and stall plans, drawn line by line */
+  var rect = function (x, y, w, h, d) { return '<rect pathLength="1" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" style="--d:' + d + 's"/>'; };
+  h = '';
+  for (y = 0; y < 6; y++) for (x = 0; x < 9; x++) h += rect(16 + x * 41, 610 + y * 38, 30, 20, (y * .07 + x * .012).toFixed(2));
+  $('lp-seats').innerHTML = h;
+  h = '';
+  for (y = 0; y < 3; y++) for (x = 0; x < 3; x++) h += rect(16 + x * 124, 590 + y * 84, 110, 66, ((x + y) * .07).toFixed(2));
+  $('lp-stalls').innerHTML = h;
+  /* LED wall lighting up panel by panel */
+  h = '';
+  for (i = 0; i < 30; i++) h += '<i style="--d:' + r(.05, .6) + 's"></i>';
+  $('lled').innerHTML = h;
+  h = '';
+  for (i = 0; i < 14; i++) h += '<i style="--x:' + r(4, 96) + '%;--d:' + r(0, .55) + 's;--s:' + r(.9, 1.4) + 's"></i>';
+  $('lsparks').innerHTML = h;
+  h = '';
+  for (i = 0; i < 12; i++) h += '<i style="--x:' + r(4, 96) + '%;--y:' + r(8, 70) + '%;--d:' + r(0, .5) + 's;--z:' + r(.6, 1.3) + '"></i>';
+  $('ltw').innerHTML = h;
+  var tape = 'Exhibitions &nbsp;&middot;&nbsp; Conferences &nbsp;&middot;&nbsp; Product launches &nbsp;&middot;&nbsp; Award nights &nbsp;&middot;&nbsp; Dealer meets &nbsp;&middot;&nbsp; Stage &nbsp;&middot;&nbsp; LED wall &nbsp;&middot;&nbsp; Fabrication &nbsp;&middot;&nbsp; ';
+  l.querySelector('.ltape').innerHTML = '<span>' + tape + tape + tape + tape + '</span>';
+  /* tap skips: a repeat visitor should not have to sit through it */
+  l.addEventListener('click', function () { document.documentElement.classList.add('seen'); });
+  l.addEventListener('animationend', function (e) { if (e.target === l) l.remove(); });
+})();
+</script>
 <div class="wipe" aria-hidden="true"><b id="wipe-t"></b></div>
 <div class="cursor" aria-hidden="true"><b id="cursor-t"></b></div>
 <div class="prog" aria-hidden="true"></div>
