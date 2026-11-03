@@ -127,154 +127,101 @@ h1 em,h2 em,.fcta-h em{
 @keyframes ripple{from{scale:0;opacity:.6}to{scale:1;opacity:0}}
 
 /* ---------- loader + page wipe: CSS-timed, so a script failure can't leave them on ---------- */
-/* opener, 7s: five scenes a second apart (0 to 5s), Welcome (5s), fade into the site (6.35s). Hero h1 delays follow the fade. */
+/* opener, 8s, built like a theatre: curtains part (1s), four scenes (to 6s), Welcome (6s), fade into the site (7.5s).
+   Only opacity and transforms animate, so a phone can run it all on the GPU; the hero waits for html.opening to clear. */
 .loader{
-  position:fixed;inset:0;z-index:150;overflow:hidden;background:#17120e;cursor:pointer;
-  font-family:var(--disp);text-transform:uppercase;
-  animation:loader-out .6s ease-in-out 6.35s forwards;
+  --bg:#150a10;--wine:#4a1428;--gold:#e7c98f;--ivory:#fbf3e4;
+  position:fixed;inset:0;z-index:150;overflow:hidden;contain:strict;background:var(--bg);cursor:pointer;color:var(--ivory);
+  animation:loader-out .6s ease-in-out 7.5s forwards;
 }
+.loader.wait,.loader.wait *,.loader.wait *::before,.loader.wait *::after{animation-play-state:paused!important}
 html.seen .loader{animation:loader-out .4s ease-in-out forwards}
+html.opening body>*:not(.loader){visibility:hidden}
+html.opening body::before{display:none}
+html.opening .hero h1>span{animation-play-state:paused}
 @keyframes loader-out{to{opacity:0;visibility:hidden}}
 @keyframes l-fade{from{opacity:0}}
-@keyframes l-rise{from{opacity:0;translate:0 .22em}}
+@keyframes l-rise{from{opacity:0;transform:translateY(14px)}}
 
-/* a scene: each photo in its own frame, sized so a 1360px source stays crisp on a phone */
-.ls{
-  position:absolute;inset:0;display:flex;flex-direction:column;padding:50px 0 0;overflow:hidden;
-  background:radial-gradient(circle 85vmax at 50% 25%,var(--deep2),var(--deep));
-  animation:l-fade .6s ease-in-out var(--t) both;
-}
-.lp{
-  position:relative;z-index:1;flex:none;overflow:hidden;background:var(--deep2);
-  box-shadow:0 18px 50px rgba(0,0,0,.4);animation:l-frame 1s var(--ease) var(--t) both;
-}
-@keyframes l-frame{from{scale:.95;opacity:.2}}
-.lp img{width:100%;height:100%;object-fit:cover;animation:l-drift 1.6s ease-out var(--t) both}
-@keyframes l-drift{from{scale:1.09}to{scale:1.01}}
-/* glass sheen crossing the photo once */
-.lp::after{
-  content:"";position:absolute;z-index:3;inset:0 -60%;pointer-events:none;
-  background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.22) 50%,transparent 58%);
-  animation:l-sheen 1s ease-in-out calc(var(--t) + .3s) both;
-}
-@keyframes l-sheen{from{translate:-60% 0}to{translate:60% 0}}
-.ls[data-ev="corporate"] .lp{height:52vh;margin:0 16px;border-radius:50vw 50vw 12px 12px}
-.ls[data-ev="exhibition"] .lp{height:42vh}
-.ls[data-ev="summit"] .lp{height:36vh}
-.ls[data-ev="launch"] .lp{height:46vh;margin:0 16px;border-radius:12px}
-.ls[data-ev="gala"] .lp{width:min(86vw,50vh);aspect-ratio:1;margin:4vh auto 0;border-radius:50%;outline:1.5px dashed var(--ac2);outline-offset:8px}
-.lt{position:relative;z-index:2;padding:0 20px;margin-top:-.2em;animation:l-rise .8s var(--ease) calc(var(--t) + .15s) both,loader-out .3s ease-in calc(var(--t) + .8s) forwards}
-.lt b{display:block;width:fit-content;font:italic 400 min(17vw,16vh)/1.05 var(--serif);text-transform:none;color:#fff8ee;text-shadow:0 2px 18px rgba(0,0,0,.45)}
-.lt b::after{content:"";display:block;height:2px;margin-top:.04em;background:var(--ac2);transform-origin:0 50%;animation:l-rule .8s var(--ease) calc(var(--t) + .3s) both}
-@keyframes l-rule{from{transform:scaleX(0)}}
-.lt span{display:block;margin-top:8px;font:500 clamp(14px,1.1vw,18px)/1.3 var(--sans);text-transform:none;color:rgba(255,248,238,.8)}
-
-/* each event's own live design */
-.lplan{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:var(--ac2);stroke-width:1;opacity:.34}
-.lplan rect{stroke-dasharray:1;stroke-dashoffset:1;animation:l-draw .6s ease-out calc(var(--t) + .2s + var(--d)) forwards}
-@keyframes l-draw{to{stroke-dashoffset:0}}
-.ldots{
-  position:absolute;inset:-28px;opacity:.3;
-  background:radial-gradient(circle,var(--ac2) 1.2px,transparent 1.8px) 0 0/14px 14px;animation:l-pan 2.4s linear var(--t) both;
-}
-@keyframes l-pan{to{translate:28px 14px}}
-.lled{position:absolute;inset:0;display:grid;grid-template:repeat(5,1fr)/repeat(6,1fr)}
-.lled i{background:var(--deep);animation:loader-out .4s ease-out calc(var(--t) + var(--d)) forwards}
-.lcur{
-  position:absolute;z-index:2;top:0;bottom:0;width:51%;left:0;
-  background:repeating-linear-gradient(90deg,var(--deep2) 0 14px,var(--deep) 14px 26px);
-  animation:l-cur-l .85s cubic-bezier(.6,0,.2,1) calc(var(--t) + .1s) both;
-}
-.lcur+.lcur{left:auto;right:0;animation-name:l-cur-r}
-@keyframes l-cur-l{to{translate:-100% 0}}
-@keyframes l-cur-r{to{translate:100% 0}}
-.lsparks{position:absolute;inset:0;z-index:2;pointer-events:none}
-.lsparks i{position:absolute;bottom:32%;left:var(--x);width:4px;height:4px;border-radius:50%;background:var(--ac2);opacity:0;animation:l-spark var(--s) ease-out calc(var(--t) + .25s + var(--d)) both}
-@keyframes l-spark{0%{opacity:0}20%{opacity:.9}100%{opacity:0;translate:0 -46vh}}
-.lball{
-  position:absolute;z-index:3;top:28px;right:9%;width:clamp(52px,6vw,84px);aspect-ratio:1;margin-top:clamp(14px,4vh,44px);border-radius:50%;
-  background:linear-gradient(rgba(255,255,255,.28) 1px,transparent 1px) 0 0/9px 9px,linear-gradient(90deg,rgba(255,255,255,.28) 1px,transparent 1px) 0 0/9px 9px,radial-gradient(circle at 35% 30%,#fff,var(--ac2) 34%,var(--deep2));
-  box-shadow:0 0 26px color-mix(in srgb,var(--ac2) 50%,transparent);animation:l-ballspin 1.6s linear var(--t) both;
-}
-.lball::before{content:"";position:absolute;left:50%;bottom:100%;width:1.5px;height:50vh;background:rgba(255,248,238,.5)}
-@keyframes l-ballspin{to{background-position:36px 0,36px 0,0 0}}
-.ltw{position:absolute;inset:0;z-index:3;pointer-events:none}
-.ltw i{
-  position:absolute;left:var(--x);top:var(--y);width:14px;height:14px;background:#fff3cf;scale:0;
-  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
-  animation:l-twinkle .75s ease-in-out calc(var(--t) + .25s + var(--d)) 2 alternate;
-}
-@keyframes l-twinkle{to{scale:var(--z);rotate:45deg}}
+/* a scene: the photo melts into a polished floor that reflects it. --h keeps each photo at about 1.8 source pixels per CSS pixel on a phone. */
+.ls{position:absolute;inset:0;background:var(--bg);will-change:opacity;animation:l-fade .9s ease-in-out var(--t) both}
+.lp{position:absolute;inset:0 0 auto;height:var(--h);overflow:hidden}
+.lp img{width:100%;height:100%;object-fit:cover;will-change:transform;animation:l-drift 3s ease-out var(--t) both}
+@keyframes l-drift{from{transform:scale(1.06) translateX(var(--x))}to{transform:none}}
+.lp::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(21,10,16,.55),transparent 26%,transparent 62%,var(--bg))}
+.lr{position:absolute;left:0;top:var(--h);width:100%;height:var(--h);object-fit:cover;transform:scaleY(-1);opacity:.22}
+.ls::after{content:"";position:absolute;inset:var(--h) 0 0;background:linear-gradient(to bottom,var(--bg),rgba(21,10,16,.5) 14%,var(--bg) 66%)}
+.lt{position:absolute;z-index:1;left:24px;right:24px;top:calc(var(--h) - 4%);display:flex;flex-direction:column;align-items:center;text-align:center}
+.lt b{font:italic 400 min(15.5vw,11vh)/1.06 var(--serif);color:var(--ivory);animation:l-rise 1s var(--ease) var(--w) both}
+.lt i{width:min(44vw,240px);height:1px;margin:12px 0 11px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:l-line 1s var(--ease) calc(var(--w) + .1s) both}
+@keyframes l-line{from{transform:scaleX(0)}}
+.lt span{font:400 clamp(14.5px,1.2vw,18px)/1.35 var(--sans);letter-spacing:.015em;color:rgba(251,243,228,.82);animation:l-rise 1s var(--ease) calc(var(--w) + .16s) both}
+/* words clear a moment before the next scene's arrive */
+.ls:not(:nth-child(4)) .lt{animation:loader-out .28s ease-in calc(var(--w) + .78s) forwards}
+.ls:first-child .lt{animation-delay:2.42s}
+.ls:nth-child(4) .lt{animation:loader-out .28s ease-in 5.95s forwards}
 
 /* Welcome */
 .lw{
-  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:44px 0 12vh;overflow:hidden;
-  background:radial-gradient(circle 75vmax at 50% 45%,#4a2c16,var(--deep));
-  color:#fff8ee;text-align:center;animation:l-fade .6s ease-in-out 5s both;
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8vh 20px 4vh;text-align:center;
+  background:radial-gradient(circle 76vmax at 50% 50%,var(--wine),var(--bg));will-change:opacity;animation:l-fade 1s ease-in-out 6s both;
 }
 .lw>*{position:relative}
-.lw strong{display:flex;font-weight:400;line-height:1.04;letter-spacing:.012em;font-size:min(23vw,22vh)}
-.lw strong i{font-style:normal;animation:l-rise .7s var(--ease) calc(5.08s + var(--i)*40ms) both,l-lit .6s linear calc(5.55s + var(--i)*55ms)}
-@keyframes l-lit{50%{color:#ffc98a}}
-.lw em{font:italic 400 clamp(21px,5.6vw,38px)/1.15 var(--serif);text-transform:none;color:#ffc98a;margin-top:6px;animation:l-rise .7s var(--ease) 5.35s both}
-.lring{position:absolute!important;left:50%;top:45%;width:60vmin;height:60vmin;margin:-30vmin 0 0 -30vmin;border-radius:50%;border:1px solid rgba(255,201,138,.4);animation:l-ring 1.6s ease-out 5.05s both}
-.lring+.lring{animation-delay:5.35s}
-.lring+.lring+.lring{animation-delay:5.65s}
-@keyframes l-ring{from{scale:.3;opacity:0}25%{opacity:1}to{scale:2.2;opacity:0}}
-.lw-pass{
-  width:96px;padding:12px 10px 9px;margin-bottom:18px;background:#fff8ee;color:var(--ink);border-radius:10px;
-  transform-origin:50% -20vh;box-shadow:0 12px 30px rgba(0,0,0,.3);
-  animation:l-hang .8s var(--ease) 5s both,l-swing 1.5s ease-in-out 5.1s both;
+.lman{position:absolute!important;left:50%;top:51%;width:min(122vw,96vh);height:min(122vw,96vh);margin:calc(min(122vw,96vh)/-2) 0 0 calc(min(122vw,96vh)/-2);fill:none;stroke:var(--gold);stroke-width:.3;opacity:.36;will-change:transform;animation:l-turn 2.6s linear 6s both}
+.lman2{animation-name:l-turn2}
+@keyframes l-turn{from{transform:rotate(-14deg) scale(.94)}to{transform:rotate(0) scale(1)}}
+@keyframes l-turn2{from{transform:rotate(16deg) scale(.9)}to{transform:rotate(0) scale(1)}}
+.lmono{
+  width:68px;height:68px;display:grid;place-items:center;margin-bottom:10px;border-radius:50%;border:1px solid var(--gold);outline:1px solid rgba(231,201,143,.4);outline-offset:4px;
+  font:italic 400 44px/1 var(--serif);color:var(--gold);animation:l-rise 1s var(--ease) 6.15s both;
 }
-.lw-pass::before{content:"";position:absolute;left:50%;bottom:calc(100% - 10px);width:2px;height:100vh;margin-left:-1px;background:rgba(255,201,138,.55)}
-.lw-pass img{width:56px;height:56px;margin:0 auto 6px;border-radius:50%}
-.lw-pass span{display:block;font-size:13px;line-height:1.1;letter-spacing:.04em}
-@keyframes l-hang{from{translate:0 -55vh}}
-@keyframes l-swing{0%{rotate:2.6deg}50%{rotate:-1.4deg}100%{rotate:0deg}}
-.lfilm{width:100%;margin-top:18px;overflow:hidden;animation:l-fade .6s ease-out 5.4s both}
-.lfilm div{display:flex;gap:8px;width:max-content;animation:l-run 2s linear 5s both}
-.lfilm img{width:clamp(96px,10vw,150px);aspect-ratio:3/2;object-fit:cover;border-radius:6px}
+.lw strong{
+  padding:0 .12em .06em;font:italic 400 min(27vw,24vh)/1.04 var(--serif);color:transparent;
+  background:linear-gradient(100deg,#c49a56,#f4dfae 30%,#fff9e8 50%,#f4dfae 70%,#c49a56) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;
+  animation:l-rise 1.1s var(--ease) 6.25s both,l-gild 1.8s ease-in-out 6.3s both;
+}
+@keyframes l-gild{from{background-position:100% 0}to{background-position:0 0}}
+.lw em{font:italic 400 clamp(21px,5.7vw,38px)/1.2 var(--serif);color:var(--ivory);animation:l-rise 1s var(--ease) 6.5s both}
+.lorn{width:min(50vw,260px);height:1px;margin:14px 0 12px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:l-line 1s var(--ease) 6.6s both}
+.lw span{font:400 clamp(13.5px,1.1vw,16px)/1.3 var(--sans);letter-spacing:.02em;color:rgba(251,243,228,.75);animation:l-rise 1s var(--ease) 6.7s both}
 
-/* over everything: truss with a progress line, soft moving light, rising motes, one drifting ribbon, gold flecks */
-.ltruss{position:absolute;inset:0 0 auto;height:28px;background:rgba(23,18,14,.55);animation:l-fade 1s ease-out both}
-.ltruss::after{content:"";position:absolute;inset:2px 0;background:#fff8ee;opacity:.4;-webkit-mask:var(--truss) 0 0/38px 24px repeat-x;mask:var(--truss) 0 0/38px 24px repeat-x}
-.ltruss i{position:absolute;left:0;right:0;bottom:0;height:2px;background:#ffab2e;transform-origin:0 50%;animation:l-prog 6.4s linear both}
-@keyframes l-prog{from{transform:scaleX(0)}}
-.lbeams{position:absolute;inset:26px 0 0;pointer-events:none;animation:l-fade 1.2s ease-out both}
-.lbeams i{
-  position:absolute;top:0;width:150vmax;height:150vmax;margin-left:-75vmax;transform-origin:50% 0;opacity:.17;
-  background:conic-gradient(from 166deg at 50% 0,transparent,#ffe3bd 14deg,transparent 28deg);
-  animation:l-sway 3.6s ease-in-out infinite alternate;
+/* live all the way through: out-of-focus lights, gold dust, slow soft light */
+.lbok,.ldust{position:absolute;inset:0;pointer-events:none}
+.lbok i{
+  position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(244,214,160,.3),rgba(244,214,160,.13) 58%,transparent 72%);
+  opacity:var(--o);will-change:transform;animation:l-float var(--s) ease-in-out infinite alternate;
 }
-.lbeams i:nth-child(1){left:14%;--a:-16deg;--b:-4deg}
-.lbeams i:nth-child(2){left:50%;--a:6deg;--b:-6deg;animation-duration:4.4s}
-.lbeams i:nth-child(3){left:86%;--a:4deg;--b:16deg;animation-duration:4s}
-@keyframes l-sway{from{rotate:var(--a)}to{rotate:var(--b)}}
-.lmotes{position:absolute;inset:0;pointer-events:none}
-.lmotes i{position:absolute;left:var(--x);top:var(--y);width:3px;height:3px;border-radius:50%;background:#fff3e0;opacity:0;animation:l-mote var(--s) linear var(--t) both}
-@keyframes l-mote{0%{opacity:0}15%,70%{opacity:.5}100%{opacity:0;translate:14px -38vh}}
-.ltape{
-  position:absolute;left:0;right:0;bottom:max(4vh,26px);padding:8px 0;overflow:hidden;white-space:nowrap;
-  font-size:clamp(13px,1.2vw,17px);line-height:1.1;letter-spacing:.09em;color:rgba(255,248,238,.72);
-  border-block:1px solid rgba(255,248,238,.18);background:rgba(23,18,14,.3);animation:l-fade 1s ease-out .4s both;
+@keyframes l-float{to{transform:translate(var(--dx),var(--dy))}}
+.ldust i{position:absolute;width:3px;height:3px;border-radius:50%;background:#ffe9bd;opacity:0;will-change:transform;animation:l-dust var(--s) linear var(--d) infinite}
+@keyframes l-dust{0%{opacity:0;transform:none}18%,70%{opacity:.8}100%{opacity:0;transform:translate(16px,-34vh)}}
+.lbeam{
+  position:absolute;top:0;left:-20%;width:80%;height:88%;transform-origin:50% 0;pointer-events:none;will-change:transform;
+  background:radial-gradient(ellipse 48% 100% at 50% 0,rgba(255,234,196,.2),transparent);animation:l-sway 5s ease-in-out infinite alternate;--a:-6deg;--b:9deg;
 }
-.ltape span{display:inline-block;animation:l-run 7s linear both}
-@keyframes l-run{to{translate:-220px 0}}
-.lconf{position:absolute;inset:0;pointer-events:none}
-.lconf i{position:absolute;top:-10px;left:var(--x);width:5px;height:5px;border-radius:50%;opacity:.75;animation:l-fall var(--s) linear var(--t) both}
-@keyframes l-fall{to{translate:var(--dx) 80vh}}
-/* wide screens: photo on the right at full height, words on the left */
-@media (min-width:1000px),(orientation:landscape){
-  .ls{flex-direction:row-reverse;align-items:center;padding:48px 4vw 70px;gap:2vw}
-  .ls[data-ev] .lp{width:56vw;height:100%;margin:0}
-  .ls[data-ev="gala"] .lp{width:auto;height:100%;margin-right:6vw}
-  .lt{flex:1;padding:0;margin:0 -7vw 0 0}
-  .lt b{font-size:min(9vw,20vh)}
-  .ls[data-ev="corporate"] .lp{border-radius:30vw 30vw 12px 12px}
-  .lball{right:auto;left:32%}
-  .lplan{opacity:.18}
+.lbeam+.lbeam{left:40%;--a:6deg;--b:-9deg;animation-duration:6s}
+@keyframes l-sway{from{transform:rotate(var(--a))}to{transform:rotate(var(--b))}}
+
+/* velvet curtains gather to the sides and stay as the frame; valance and fairy lights above */
+.lcu{
+  position:absolute;top:0;bottom:0;left:0;width:50.5%;transform-origin:0 50%;will-change:transform;
+  background:linear-gradient(to bottom,rgba(10,3,7,.5),transparent 28%,transparent 70%,rgba(10,3,7,.7)),
+    repeating-linear-gradient(90deg,#2b0a18 0,#551730 14px,#7b2442 21px,#4a1329 30px,#2b0a18 40px);
+  box-shadow:inset -2px 0 0 #c49a56;animation:l-gather 1.6s cubic-bezier(.65,0,.25,1) 1s both;
 }
-@media (max-height:560px){.lw-pass,.lfilm{display:none}.lw{padding-bottom:10vh}}
+.lcu+.lcu{left:auto;right:0;transform-origin:100% 50%;box-shadow:inset 2px 0 0 #c49a56}
+@keyframes l-gather{to{transform:scaleX(.075)}}
+.lmono0{position:absolute;left:50%;top:44%;margin:-34px 0 0 -34px;background:var(--bg);animation:loader-out .6s ease-in-out .75s forwards}
+.lval{position:absolute;inset:0 0 auto;width:100%;height:clamp(46px,7.5vh,72px);fill:#3c0f22;stroke:#c49a56;stroke-width:1.2;vector-effect:non-scaling-stroke;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
+.lfair{position:absolute;left:0;right:0;top:clamp(38px,6.4vh,62px);height:clamp(34px,5.4vh,54px);pointer-events:none}
+.lfair svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgba(231,201,143,.55);stroke-width:1;vector-effect:non-scaling-stroke}
+.lfair path{vector-effect:non-scaling-stroke}
+.lfair i{
+  position:absolute;width:15px;height:15px;margin:-7px 0 0 -7px;border-radius:50%;background:radial-gradient(circle,#fff8e4 16%,rgba(255,216,150,.65) 34%,transparent 70%);
+  will-change:opacity;animation:l-twinkle var(--s) ease-in-out var(--d) infinite alternate;
+}
+@keyframes l-twinkle{from{opacity:.4}to{opacity:1}}
+.lskip{position:absolute;left:0;right:0;bottom:max(16px,env(safe-area-inset-bottom));text-align:center;font:400 12px/1 var(--sans);letter-spacing:.03em;color:rgba(251,243,228,.5);animation:l-fade 1s ease-out 1.8s both}
+@media (max-height:560px){.lmono,.lw span,.lorn{display:none}.lfair{display:none}}
 .wipe{
   position:fixed;inset:0;z-index:140;display:grid;place-items:center;background:var(--ac);color:#fff;pointer-events:none;
   translate:0 100%;font:400 clamp(3rem,12vw,11rem)/1 var(--disp);text-transform:uppercase;
@@ -373,10 +320,9 @@ html.fine .cursor{display:grid}
 .meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);margin-bottom:clamp(14px,2vw,24px);position:relative;z-index:2}
 .meta s{text-decoration:none;color:var(--ac);margin-inline:6px}
 .hero h1{--h:clamp(3.2rem,10.2vw,11rem);font-size:var(--h);line-height:1;position:relative;z-index:2}
-.hero h1>span{display:block;animation:rise 1.1s var(--ease) 6.45s both}
-.hero h1>span:nth-child(2){animation-delay:6.55s}
-.hero h1>span:nth-child(3){animation-delay:6.65s}
-html.seen .hero h1>span{animation-delay:.05s}
+.hero h1>span{display:block;animation:rise 1.1s var(--ease) .15s both}
+.hero h1>span:nth-child(2){animation-delay:.25s}
+.hero h1>span:nth-child(3){animation-delay:.35s}
 @keyframes rise{from{opacity:0;translate:0 .45em}}
 .l1{white-space:nowrap}
 .hero h1 .l2{display:flex;align-items:center;gap:.16em;width:62%;min-width:0;height:1em}
@@ -388,7 +334,7 @@ html.seen .hero h1>span{animation-delay:.05s}
   background:linear-gradient(color-mix(in srgb,var(--ac) 58%,transparent),color-mix(in srgb,var(--ac) 58%,transparent)),var(--fill,none) 50% 42%/cover;
   background-color:var(--ac);
   -webkit-background-clip:text;background-clip:text;
-  animation:rise 1.1s var(--ease) 6.65s both,fillpan 26s ease-in-out infinite alternate;
+  animation:rise 1.1s var(--ease) .35s both,fillpan 26s ease-in-out infinite alternate;
 }
 @keyframes fillpan{from{background-position:18% 40%}to{background-position:82% 58%}}
 .fx{position:absolute;inset:0;display:block;animation:fxin .9s var(--ease) both}
@@ -1067,7 +1013,7 @@ html:not(.fine) .type-float{display:none}
   .hero h1 .l2{height:.72em;margin-block:.02em .05em}
   .inl{height:.46em}
   /* fit the longest theme word to the screen: Anton caps run close to .462em each */
-  .hero h1 .l3{font-size:calc((100vw - 32px)/(var(--n,12)*.462));animation:rise 1.1s var(--ease) 6.65s both}
+  .hero h1 .l3{font-size:calc((100vw - 32px)/(var(--n,12)*.462));animation:rise 1.1s var(--ease) .35s both}
   .frames{height:74vw}
   .acts .btn{flex:1 1 100%}
   .tapes{height:96px}

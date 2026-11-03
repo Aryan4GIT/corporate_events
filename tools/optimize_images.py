@@ -10,11 +10,13 @@ import glob
 import json
 import os
 
-from PIL import Image
+from PIL import Image, ImageFilter
 
 SRC, OUT = "assets/gallery", "assets/img"
 WIDTHS = (480, 960)
 WEBP_Q, JPG_Q = 76, 80
+# The opening sequence fills a phone screen, so its photos skip the heavier compression. These four measure sharpest.
+OPENER, OPENER_Q = ("g8", "g4", "g2", "g6"), 90
 
 # name: (source glob, letterboxed?, rows to keep from the top once any bars are gone)
 # The keep values cut the POCO camera watermark (g2, g4, i1) and burned-in venue captions (i3, i4).
@@ -70,6 +72,8 @@ def main():
             im.resize(size, Image.LANCZOS).save(path, "WEBP", quality=WEBP_Q, method=6)
             total += os.path.getsize(path)
         im.save(os.path.join(OUT, f"{name}.jpg"), "JPEG", quality=JPG_Q, optimize=True, progressive=True)
+        if name in OPENER:
+            im.filter(ImageFilter.UnsharpMask(1.2, 70, 2)).save(os.path.join(OUT, f"open-{name}.webp"), "WEBP", quality=OPENER_Q, method=6)
 
         r, g, b = im.resize((1, 1), Image.BOX).getpixel((0, 0))
         manifest[name] = {"w": widths, "h": im.height, "c": f"#{r:02x}{g:02x}{b:02x}"}
