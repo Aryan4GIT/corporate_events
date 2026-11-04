@@ -172,8 +172,8 @@ html.opening .hero h1>span{animation-play-state:paused}
 @keyframes l-turn{from{transform:rotate(-14deg) scale(.94)}to{transform:rotate(0) scale(1)}}
 @keyframes l-turn2{from{transform:rotate(16deg) scale(.9)}to{transform:rotate(0) scale(1)}}
 .lmono{
-  width:68px;height:68px;display:grid;place-items:center;margin-bottom:10px;border-radius:50%;border:1px solid var(--gold);outline:1px solid rgba(231,201,143,.4);outline-offset:4px;
-  font:italic 400 44px/1 var(--serif);color:var(--gold);animation:l-rise 1s var(--ease) 6.15s both;
+  --lm:clamp(96px,min(30vw,17vh),140px);width:var(--lm);height:var(--lm);margin-bottom:14px;border-radius:50%;border:1px solid var(--gold);outline:1px solid rgba(231,201,143,.4);outline-offset:4px;
+  animation:l-rise 1s var(--ease) 6.15s both;
 }
 .lw strong{
   padding:0 .12em .06em;font:italic 400 min(27vw,24vh)/1.04 var(--serif);color:transparent;
@@ -210,7 +210,8 @@ html.opening .hero h1>span{animation-play-state:paused}
 }
 .lcu+.lcu{left:auto;right:0;transform-origin:100% 50%;box-shadow:inset 2px 0 0 #c49a56}
 @keyframes l-gather{to{transform:scaleX(.075)}}
-.lmono0{position:absolute;left:50%;top:44%;margin:-34px 0 0 -34px;background:var(--bg);animation:loader-out .6s ease-in-out .75s forwards}
+.lmono svg{display:block;width:100%;height:100%}
+.lmono0{position:absolute;left:50%;top:44%;margin:calc(var(--lm)/-2) 0 0 calc(var(--lm)/-2);animation:loader-out .6s ease-in-out .75s forwards}
 .lval{position:absolute;inset:0 0 auto;width:100%;height:clamp(46px,7.5vh,72px);fill:#3c0f22;stroke:#c49a56;stroke-width:1.2;vector-effect:non-scaling-stroke;filter:drop-shadow(0 4px 8px rgba(0,0,0,.45))}
 .lfair{position:absolute;left:0;right:0;top:clamp(38px,6.4vh,62px);height:clamp(34px,5.4vh,54px);pointer-events:none}
 .lfair svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:rgba(231,201,143,.55);stroke-width:1;vector-effect:non-scaling-stroke}
